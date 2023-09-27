@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Twitter Tweet</title>
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 10px;
+
+    }
+
+    .input-wrapper {
+      display: flex;
+      margin-bottom: 10px;
+      align-items: baseline;
+    }
+
+    .input {
+      flex: 1;
+      height:60px;
+      padding: 10px;
+      font-size: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+      border: none;
+      outline: none;
+    }
+
+    .email {
+      border: 1px solid;
+      padding: 10px 14px;
+      border-radius: 30px;
+      background: #ff832f;
+      color: white;
+      font-size: 20px;
+    }
+
+    .email a {
+      text-decoration: none;
+      color: white;
+    }
+
+    .color {
+      font-size: 15px;
+      font-weight: bold;
+      color: #0f1419;
+    }
+
+    .color-1 {
+      color: #536471;
+      margin-left: 4px;
+    }
+
+    .tweet-btn {
+      padding: 8px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #1da1f2;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
+      opacity: 0.7;
+    }
+
+    .tweet-btn:active {
+      opacity: 0.2;
+    }
+
+    .slide {
+      margin-top: 70px;
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    .inner-slide {
+      background-color: #f5f8fa;
+      padding: 10px;
+      /* border-radius: 8px; */
+      margin-bottom: 10px;
+      border: 1px solid rgb(206, 202, 202);
+    }
+
+    .inner-slide {
+      position: relative;
+    }
+
+    .tweet-time {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 12px;
+      color: gray;
+    }
+
+    .meta-desc {
+      font-size: 15px;
+      color: #657786;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .inc-time {
+      font-size: 12px;
+      color: #657786;
+      margin-left: 4px;
+    }
+
+    .meta-text {
+      margin-top: 6px;
+      color: #0f1419;
+      font-size: 15px;
+    }
+
+    .actual-time {
+      font-size: 15px;
+      color: #0f1419;
+      margin-top: 6px;
+    }
+
+    
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="main">
+      <div class="input-wrapper">
+        <div class="email">
+          <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox">A</a>
+        </div>
+        <textarea id="tweet-input" class="input" placeholder="What's happening?"></textarea>
+
+      </div>
+      <button id="tweet-btn" class="tweet-btn">Tweet</button>
+    </div>
+
+    <div class="slide" id="tweet-slide"></div>
+  </div>
+
+
+
+  <script>
+const placeholder = document.querySelector('.placeholder');
+const input = document.querySelector('.input');
+const tweetBtn = document.querySelector('.tweet-btn');
+const slide = document.querySelector('.slide');
+
+tweetBtn.addEventListener('click', function () {
+  const inputText = input.value.trim();
+  if (inputText !== '') {
+    const currentTime = new Date().toLocaleTimeString();
+    const tweetText =
+      '<div class="meta-desc"> <div class="color">Abhinav Pal</div> <div class="color-1"> @palabhichd </div><div class="inc-time"> </div> <div class="actual-time"></div> ' +
+      "</div> <div class='meta-text'>" +
+      inputText +
+      "</div>";
+
+    const innerSlide = document.createElement('div');
+    innerSlide.className = 'inner-slide';
+    slide.appendChild(innerSlide);
+    innerSlide.innerHTML = tweetText;
+
+    const actualTime = innerSlide.querySelector('.actual-time');
+
+    const dateOne = new Date().getTime();
+    const tweetInterval = setInterval(function () {
+      let elapsedTime = getActualTime(dateOne);
+      actualTime.innerHTML = elapsedTime;
+    }, 1000);
+
+    input.value = '';
+    placeholder.style.display = "block";
+  }
+});
+
+input.addEventListener("click", function () {
+  placeholder.style.display = "none";
+});
+
+function getActualTime(startTime) {
+  const presentTime = new Date().getTime();
+  const t = presentTime - startTime;
+
+  const oneDay = 24 * 60 * 60 * 1000;
+  const oneHour = 60 * 60 * 1000;
+  const oneMinute = 60 * 1000;
+
+  let days = Math.floor(t / oneDay);
+  let hours = Math.floor((t % oneDay) / oneHour);
+  let minutes = Math.floor((t % oneHour) / oneMinute);
+  let seconds = Math.floor((t % oneMinute) / 1000);
+
+  let displayTime = '';
+
+  if (days > 0) {
+    displayTime = days + " day";
+  } else if (hours > 0) {
+    displayTime = hours + " hour";
+  } else if (minutes > 0) {
+    displayTime = minutes + " minute";
+  } else {
+    displayTime = seconds + " second";
+  }
+  return displayTime;
+}
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mock Twitter Post</title>
+    <style>
+      .tweet {
+        background-color: lightblue;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" id="inputText" placeholder="Enter your tweet" />
+    <button onclick="postTweet()">Tweet</button>
+
+    <div id="tweetsContainer"></div>
+
+    <script>
+      var tweets = [];
+
+      function postTweet() {
+        var input = document.getElementById("inputText");
+        var tweetText = input.value.trim();
+
+        if (tweetText !== "") {
+          var now = new Date();
+          var tweet = {
+            name: "John Doe", // Replace with user's name
+            tweet: tweetText,
+            time: now,
+          };
+
+          tweets.push(tweet);
+          displayTweet(tweet);
+
+          input.value = ""; // Clear the input box
+        }
+      }
+
+      function displayTweet(tweet) {
+  var container = document.getElementById("tweetsContainer");
+
+  var tweetDiv = document.createElement("div");
+  tweetDiv.className = "tweet";
+
+  var name = document.createElement("h3");
+  name.innerText = tweet.name;
+
+  var tweetContent = document.createElement("p");
+  tweetContent.innerText = tweet.tweet;
+
+  var time = document.createElement("span");
+  time.id = "time_" + (tweets.length - 1); // Set a unique ID for the time element
+
+  tweetDiv.appendChild(name);
+  tweetDiv.appendChild(tweetContent);
+  tweetDiv.appendChild(time);
+
+  container.appendChild(tweetDiv);
+}
+
+
+      // ... Previous code ...
+
+function updateTimeElapsed() {
+  var now = new Date();
+
+  for (var i = 0; i < tweets.length; i++) {
+    var tweet = tweets[i];
+    var timeElapsed = now - tweet.time;
+    var timeElement = document.getElementById("time_" + i);
+    timeElement.innerText = getTimeElapsedString(timeElapsed);
+  }
+}
+
+updateTimeElapsed();
+
+// ... Remaining code ...
+
+
+function getTimeString(time) {
+  var now = new Date();
+  var timeElapsed = now - time;
+  return "Posted " + getTimeElapsedString(timeElapsed) + " ago";
+}
+      // ... Previous code ...
+
+function getTimeElapsedString(timeElapsed) {
+  var seconds = Math.floor(timeElapsed / 1000);
+
+  if (seconds < 60) {
+    return seconds + " seconds";
+  } else if (seconds < 120) {
+    return "1 minute";
+  } else if (seconds < 3600) {
+    return Math.floor(seconds / 60) + " minutes";
+  } else if (seconds < 7200) {
+    return "1 hour";
+  } else {
+    return Math.floor(seconds / 3600) + " hours";
+  }
+}
+
+// ... Remaining code ...
+
+      setInterval(updateTimeElapsed, 5000); // Update time elapsed every 5 seconds
+    </script>
+  </body>
+</html>
